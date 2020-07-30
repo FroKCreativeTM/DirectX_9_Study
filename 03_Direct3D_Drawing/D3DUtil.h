@@ -1,5 +1,8 @@
 #pragma once
 
+#include <iostream>
+#include <Windows.h>
+
 #include <d3d9.h>
 #include <d3dx9.h>
 
@@ -11,20 +14,23 @@ const int WIN_HEIGHT = 480;
 namespace d3d
 {
 	/* ======================== 버텍스 구조체 ======================== */
-	struct ColorVectex
+	struct Vertex
 	{
-		float _x, _y, _z;	// 위치
-		DWORD _color;
+		Vertex() {}
+		Vertex(float x, float y, float z)
+		{
+			_x = x;
+			_y = y;
+			_z = z;
+		}
+
+		float _x, _y, _z;
+		static const DWORD FVF = D3DFVF_XYZ;	// 정점 변환 이전 좌표
 	};
 
-	struct NormalTexVertex
-	{
-		float _x, _y, _z;		// 위치
-		float _nx, _ny, _nz;	// 법선 벡터
-		float _u, _v;			// 텍스처 좌표
-	};
 
 	bool InitD3D(HINSTANCE hInstance, int width, int height, bool windowed, D3DDEVTYPE deviceType, IDirect3DDevice9** device);
+
 	int EnterMsgLoop(bool (*ptr_display)(float deltaTime));
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -46,4 +52,5 @@ namespace d3d
 		}
 	}
 }
+
 

@@ -12,6 +12,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_Math", "01_Math\01_Math.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02_Foundation_of_Direct3D", "02_Foundation_of_Direct3D\02_Foundation_of_Direct3D.vcxproj", "{E85F4F47-AB81-4453-817F-AA90C105F9DD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_Direct3D_Drawing", "03_Direct3D_Drawing\03_Direct3D_Drawing.vcxproj", "{964E91DC-BC55-4423-B6C2-648F55A971CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -36,6 +38,14 @@ Global
 		{E85F4F47-AB81-4453-817F-AA90C105F9DD}.Release|x64.Build.0 = Release|x64
 		{E85F4F47-AB81-4453-817F-AA90C105F9DD}.Release|x86.ActiveCfg = Release|Win32
 		{E85F4F47-AB81-4453-817F-AA90C105F9DD}.Release|x86.Build.0 = Release|Win32
+		{964E91DC-BC55-4423-B6C2-648F55A971CD}.Debug|x64.ActiveCfg = Debug|x64
+		{964E91DC-BC55-4423-B6C2-648F55A971CD}.Debug|x64.Build.0 = Debug|x64
+		{964E91DC-BC55-4423-B6C2-648F55A971CD}.Debug|x86.ActiveCfg = Debug|Win32
+		{964E91DC-BC55-4423-B6C2-648F55A971CD}.Debug|x86.Build.0 = Debug|Win32
+		{964E91DC-BC55-4423-B6C2-648F55A971CD}.Release|x64.ActiveCfg = Release|x64
+		{964E91DC-BC55-4423-B6C2-648F55A971CD}.Release|x64.Build.0 = Release|x64
+		{964E91DC-BC55-4423-B6C2-648F55A971CD}.Release|x86.ActiveCfg = Release|Win32
+		{964E91DC-BC55-4423-B6C2-648F55A971CD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
