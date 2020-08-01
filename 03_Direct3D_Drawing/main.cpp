@@ -14,6 +14,7 @@ bool Display(float fDeltaTime);
 IDirect3DDevice9*				g_Device = nullptr;				// 다이렉트3D 디바이스
 IDirect3DVertexBuffer9*			g_pVertexBuffer = nullptr;		// 정점 버퍼
 IDirect3DIndexBuffer9*			g_pIndexBuffer = nullptr;		// 인덱스 버퍼
+// ID3DXMesh* g_Teapot = nullptr;								// 테스트용 메시
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR strCmdLine, INT nCmdLine)
 {
@@ -147,6 +148,8 @@ bool Display(float fDeltaTime)
 {
 	D3DCOLOR bgColour = 0xFFFDAB9F;	// 배경색상 - 살몬 핑크
 
+	// D3DXCreateTeapot(g_Device, &g_Teapot, 0);
+
 	if (g_Device)
 	{
 		// 입방체를 회전시킨다.
@@ -178,7 +181,7 @@ bool Display(float fDeltaTime)
 			g_Device->SetStreamSource(0, g_pVertexBuffer, 0, sizeof(d3d::Vertex));
 			g_Device->SetIndices(g_pIndexBuffer);
 			g_Device->SetFVF(d3d::Vertex::FVF);
-
+			
 			g_Device->DrawIndexedPrimitive(
 				D3DPT_TRIANGLELIST,			// 그리고자 하는 기본형 타입
 				0, 							// 이번 호출에 이용될 인덱스에 더해질 기반 번호
@@ -186,11 +189,14 @@ bool Display(float fDeltaTime)
 				8, 							// 호출에 참조될 정점 수
 				0, 							// 인덱스 버퍼 내에서 읽기를 시작할 요소로의 인덱스
 				12);						// 그리고자 하는 기본형의 수
+
+			// g_Teapot->DrawSubset(0);
 		}
 		g_Device->EndScene();
 
 		g_Device->Present(0, 0, 0, 0);
 	}
+
 	return true;
 }
 
