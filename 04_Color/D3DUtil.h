@@ -7,7 +7,7 @@
 #include <d3dx9.h>
 
 /* ======================== 전역 변수 ======================== */
-const LPCWSTR g_AppName = L"Init Direct3D";
+const LPCWSTR g_AppName = L"Color of Direct3D";
 const int WIN_WIDTH = 640;
 const int WIN_HEIGHT = 480;
 
