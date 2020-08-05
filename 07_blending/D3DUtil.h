@@ -1,5 +1,9 @@
 #pragma once
 
+
+
+#pragma once
+
 #include <iostream>
 #include <Windows.h>
 
@@ -11,7 +15,7 @@ typedef D3DXVECTOR3 XMVECTOR3;
 typedef D3DXMATRIX XMMATRIX;
 
 /* ======================== 전역 변수 ======================== */
-const LPCWSTR g_AppName = L"Texture of Direct3D";
+const LPCWSTR g_AppName = L"Blending of Direct3D";
 const int WIN_WIDTH = 640;
 const int WIN_HEIGHT = 480;
 

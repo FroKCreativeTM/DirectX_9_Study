@@ -1,4 +1,5 @@
 #include "D3DUtil.h"
+#include "TextureVertex.h"
 
 /* ========= 공통 함수 ========= */
 bool Setup();
@@ -8,7 +9,6 @@ bool Display(float fDeltaTime);
 /* ========= 전역 변수 ========= */
 IDirect3DDevice9* g_Device = nullptr;				// 다이렉트3D 디바이스
 IDirect3DVertexBuffer9* g_pVertexBuffer = nullptr;		// 정점 버퍼
-IDirect3DIndexBuffer9* g_pIndexBuffer = nullptr;		// 인덱스 버퍼
 
 // 피라미드를 그리기 위한 정점 버퍼
 IDirect3DVertexBuffer9* g_Quad = nullptr;
@@ -43,29 +43,26 @@ INT WINAPI WinMain(HINSTANCE hInstance,
 
 bool Setup()
 {
-	// 일단 조명을 킨다.
-	g_Device->SetRenderState(D3DRS_LIGHTING, true);
-
 	// 정점 버퍼를 생성한다.
 	g_Device->CreateVertexBuffer(
-		8 * sizeof(d3d::TextureVertex),
+		8 * sizeof(TextureVertex),
 		D3DUSAGE_WRITEONLY,
-		d3d::TextureVertex::FVF,
+		FVF_VERTEX,
 		D3DPOOL_MANAGED,
 		&g_Quad,
 		0);
 
 	// 피라미드 데이터로 정점 버퍼를 채운다.
-	d3d::TextureVertex* v;
+	TextureVertex* v;
 	g_Quad->Lock(0, 0, (void**)&v, 0);
 	{
-		v[0] = d3d::TextureVertex(-1.0f, -1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f);
-		v[1] = d3d::TextureVertex(-1.0f, 1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f);
-		v[2] = d3d::TextureVertex(1.0f, 1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f);
+		v[0] = TextureVertex(-1.0f, -1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f);
+		v[1] = TextureVertex(-1.0f, 1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f);
+		v[2] = TextureVertex(1.0f, 1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f);
 
-		v[3] = d3d::TextureVertex(-1.0f, -1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f);
-		v[4] = d3d::TextureVertex(1.0f, 1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f);
-		v[5] = d3d::TextureVertex(1.0f, -1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f);
+		v[3] = TextureVertex(-1.0f, -1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f);
+		v[4] = TextureVertex(1.0f, 1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f);
+		v[5] = TextureVertex(1.0f, -1.0f, 1.25f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f);
 	}
 	g_Quad->Unlock();
 
@@ -90,25 +87,55 @@ bool Setup()
 		1000.0f);
 	g_Device->SetTransform(D3DTS_PROJECTION, &matProj);
 
+	// 조명 사용 안 함
+	g_Device->SetRenderState(D3DRS_LIGHTING, false);
+
 	return true;
 }
 
 void Cleanup()
 {
 	d3d::Release<IDirect3DVertexBuffer9*>(g_Quad);
+	d3d::Release<IDirect3DTexture9*>(g_ToddFace);
 }
 
 bool Display(float fDeltaTime)
 {
 	if (g_Device)
 	{
+		// wrap 어드레스 모드로 지정한다.
+		if (GetAsyncKeyState('W') & 0x8000f)
+		{
+			g_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+			g_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+		}
+		// border color 어드레스 모드로 지정한다.
+		if (GetAsyncKeyState('B') & 0x8000f)
+		{
+			g_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_BORDER);
+			g_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_BORDER);
+			g_Device->SetSamplerState(0, D3DSAMP_BORDERCOLOR, 0x000000ff);
+		}
+		// clamp 어드레스 모드로 지정한다.
+		if (GetAsyncKeyState('C') & 0x8000f)
+		{
+			g_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+			g_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+		}
+		// mirror 어드레스 모드로 지정한다.
+		if (GetAsyncKeyState('M') & 0x8000f)
+		{
+			g_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_MIRROR);
+			g_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_MIRROR);
+		}
+
 		D3DCOLOR bgColour = 0xFFFDAB9F;	// 배경색상 - 살몬 핑크
 		g_Device->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, bgColour, 1.0f, 0);
 
 		g_Device->BeginScene();
 		{
-			g_Device->SetStreamSource(0, g_Quad, 0, sizeof(d3d::TextureVertex));
-			g_Device->SetFVF(d3d::TextureVertex::FVF);
+			g_Device->SetStreamSource(0, g_Quad, 0, sizeof(TextureVertex));
+			g_Device->SetFVF(FVF_VERTEX);
 			g_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
 		}
 		g_Device->EndScene();
