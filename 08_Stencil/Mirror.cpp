@@ -259,9 +259,11 @@ void RenderMirror()
 	// 깊이 버퍼 쓰기를 활성화한다.
 	g_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);
 
+	// 단지 주전자가 거울을 통과하는 경우만 그리도록
 	g_Device->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
-	g_Device->SetRenderState(D3DRS_STENCILFUNC, D3DSTENCILOP_KEEP);
+	g_Device->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_KEEP);
 
+	// 반사의 위치
 	XMMATRIX W, T, R;
 	D3DXPLANE plane(0.0f, 0.0f, 1.0f, 0.0f);
 	D3DXMatrixReflect(&R, &plane);
