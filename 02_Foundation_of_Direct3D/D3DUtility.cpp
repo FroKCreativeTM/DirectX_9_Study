@@ -75,18 +75,17 @@ bool d3d::InitD3D(HINSTANCE hInstance, int width, int height, bool windowed, D3D
 	d3dpp.hDeviceWindow = hwnd;
 	d3dpp.Windowed = windowed;	// 전체화면
 	d3dpp.EnableAutoDepthStencil = true;
-	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;	// 깊이 포맷
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;	// 깊이 포맷(Depth 24, Stencil 8)
 	d3dpp.Flags = 0;
 	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
 	// 4. 초기화된 D3DPRESENT_PARAMETERS에 따라 IDirect3DDevice9 객체를 생성한다.
 	// IDirect3DDevice9* device = nullptr;
-
 	HRESULT hResult = _d3d9->CreateDevice(
 		D3DADAPTER_DEFAULT,		// 기본 어뎁터
 		deviceType,				// 장치 타입
-		hwnd,				// 장치와 연결된 윈도우
+		hwnd,					// 장치와 연결된 윈도우
 		nVP,					// 버텍스 프로세싱 타입
 		&d3dpp,					// 시연 인자
 		device					// 생성된 장치

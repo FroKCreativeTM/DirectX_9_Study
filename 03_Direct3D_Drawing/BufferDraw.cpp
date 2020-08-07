@@ -53,7 +53,7 @@ bool Setup()
 
 	g_Device->CreateIndexBuffer(
 		36 * sizeof(DWORD),									// 버퍼에 할당할 바이트 수
-		D3DUSAGE_WRITEONLY, 								// 버퍼가 이용될 방법을 결정하는 부가적 특성
+		D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, 								// 버퍼가 이용될 방법을 결정하는 부가적 특성
 		D3DFMT_INDEX16, 									// 정점 버퍼에 보관될 정점의 유연한 정점 포맷
 		D3DPOOL_MANAGED,									// 버퍼가 위치할 메모리 풀
 		&g_pIndexBuffer, 									// 만들어질 정점 버퍼를 받을 포인터
